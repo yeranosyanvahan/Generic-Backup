@@ -9,20 +9,34 @@ container = client.containers.get(CONTAINER_NAME)
 
 output = container.exec_run('echo "hello world"')
 
-print(output.output.decode('utf-8'))
+import tarfile
+import gzip
 
-# Open the tar file for writing
-with tarfile.open('/output.gz', 'w:gz') as output_tar:
+# function that generates output
+def generate_output():
+    return "This is the output of my function"
 
-    # Add the output of the function to a file in the archive
-    output = 'The output of the function goes here.'
-    output_bytes = output.encode('utf-8')
-    output_file = tarfile.TarInfo('output.txt')
-    output_file.size = len(output_bytes)
-    output_tar.addfile(output_file, fileobj=io.BytesIO(output_bytes))
-
-    # Add a new file to the archive
-    readme_bytes = b'hello world'
-    readme_file = tarfile.TarInfo('Readme.md')
-    readme_file.size = len(readme_bytes)
-    output_tar.addfile(readme_file, fileobj=io.BytesIO(readme_bytes))
+# open the existing tar file for writing
+with tarfile.open('output.tar', 'a') as tf:
+    
+    # create a GzipFile object for writing compressed data
+    with gzip.open('output.gz', 'wb') as gz:
+        
+        # write the output to the GzipFile
+        gz.write(output.encode('utf-8'))
+        
+        # create a TarInfo object for the output file
+        info = tarfile.TarInfo('output.gz')
+        info.size = len(output)
+        
+        # add the output file to the tar file
+        tf.addfile(info, gz)
+        
+    # create a TarInfo object for the Readme file
+    readme_info = tarfile.TarInfo('Readme.md')
+    readme_info.size = len('hello world')
+    
+    # add the Readme file to the tar file
+    with tf.extractfile(readme_info) as f:
+        f.write('hello world'.encode('utf-8'))
+        tf.addfile(readme_info, f)
