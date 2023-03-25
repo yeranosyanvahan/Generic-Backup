@@ -15,6 +15,7 @@ config.read('cfg/main.ini')
 
 for section in config.sections():
     keys = {key:value for key, value in config.items(section)}
+    print(keys)
 
     if("BACKUPTYPE" not in keys):
         print("BACKUPTYPE is not present in main.ini")

@@ -3,3 +3,11 @@ BACKUPTYPE=docker
 DBTYPE=mysql
 MYSQL_USER=root
 MYSQL_PASSWORD=password
+CONFIG_FILE="/etc/mysql/mariadb.cnf"
+
+[db-postgres-1]
+DBTYPE=mysql
+BACKUPTYPE=postgres
+PGUSER=postgres
+PGPASSWORD=postgres
+CONFIG_FILE=/etc/postgresql/13/main/postgresql.conf
