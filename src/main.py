@@ -49,7 +49,6 @@ for section in config.sections():
 
     COMMAND, README = COMMANDS(keys["dbtype"])
     COMMAND = COMMAND.format(**keys)
-    print(COMMAND)
 
     # Set the folder and filename for the tar file
     folder = datetime.now().strftime('%Y-%m')
@@ -61,12 +60,12 @@ for section in config.sections():
 
     # Open the tar file
     with tarfile.open(f'{folder}/{filename}', 'w:gz') as tar:
-        # Add the output of the function to backup/backup.sql in the tar file
-        output = "This is the output of my function"
-        output_bytes = container.exec_run(COMMAND).output
-        tarinfo = tarfile.TarInfo('backup/backup.sql')
-        tarinfo.size = len(output_bytes)
-        tar.addfile(tarinfo, io.BytesIO(output_bytes))
+        # Create a subprocess to run the backup command in the container
+        proc = container.exec_run(COMMAND, stdout=True, stderr=True, stream=True)
+
+        # Add the stdout and stderr streams of the subprocess to the tar file
+        tar.addfile(tarfile.TarInfo('backup/backup.sql'), proc.stdout)
+        tar.addfile(tarfile.TarInfo('backup/backup_stderr.txt'), proc.stderr)
 
         # Add the Readme.md file to the tar file
         readme_bytes = README.encode('utf-8')
