@@ -48,6 +48,7 @@ for section in config.sections():
     container = client.containers.get(CONTAINER_NAME)
 
     COMMAND, README = COMMANDS(keys["dbtype"])
+    print(COMMAND)
 
     # Set the folder and filename for the tar file
     folder = datetime.now().strftime('%Y-%m')
