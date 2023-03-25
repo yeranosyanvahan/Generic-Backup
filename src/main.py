@@ -48,6 +48,7 @@ for section in config.sections():
     container = client.containers.get(CONTAINER_NAME)
 
     COMMAND, README = COMMANDS(keys["dbtype"])
+    COMMAND = COMMAND.format(**keys)
     print(COMMAND)
 
     # Set the folder and filename for the tar file
@@ -61,8 +62,7 @@ for section in config.sections():
     # Open the tar file
     with tarfile.open(f'{folder}/{filename}', 'w:gz') as tar:
         # Create a subprocess to run the backup command in the container
-        proc = container.exec_run(COMMAND, environment=keys)
-        print(container.exec_run("ffecho ${mysql_password}", environment=keys).output)
+        proc = container.exec_run(COMMAND)
 
         # Add the stdout and stderr streams of the subprocess to the tar file
         tar.addfile(tarfile.TarInfo('backup/backup.sql'), proc.output)
