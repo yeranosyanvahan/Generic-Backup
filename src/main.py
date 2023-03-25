@@ -14,9 +14,20 @@ config = configparser.ConfigParser()
 config.read('cfg/main.ini')
 
 for section in config.sections():
+    
+    if("BACKUPTYPE" not in config[section]):
+        print("BACKUPTYPE is not present in main.ini")
+    if("DBTYPE" not in config[section]):
+        print("DBTYPE is not present in main.ini")
+
     if(config[section]["BACKUPTYPE"]!= "docker"):
         print("Only docker BACKUPTYPE is supported")
+        sys.exit()       
+
+    if(config[section]["DBTYPE"] not in ["mysql","postgresql"]):
+        print("Only docker mysql and postgresql DBTYPE is supported")
         sys.exit()        
+
 
 CONTAINER_NAME = "srv-mysql2-1"
 
