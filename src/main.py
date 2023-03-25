@@ -17,7 +17,7 @@ def generate_output():
     return "This is the output of my function"
 
 # open the existing tar file for writing
-with tarfile.open('output.tar', 'a') as tf:
+with tarfile.open('output.tar', 'w:gz') as tf:
     
     # create a GzipFile object for writing compressed data
     with gzip.open('output.gz', 'wb') as gz:
