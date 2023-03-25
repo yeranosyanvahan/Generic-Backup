@@ -14,17 +14,18 @@ config = configparser.ConfigParser()
 config.read('cfg/main.ini')
 
 for section in config.sections():
-    
-    if("BACKUPTYPE" not in config[section]):
+    keys = {key:value for key, value in config.items(section)}
+
+    if("BACKUPTYPE" not in keys):
         print("BACKUPTYPE is not present in main.ini")
-    if("DBTYPE" not in config[section]):
+    if("DBTYPE" not in keys):
         print("DBTYPE is not present in main.ini")
 
-    if(config[section]["BACKUPTYPE"]!= "docker"):
+    if(keys["BACKUPTYPE"]!= "docker"):
         print("Only docker BACKUPTYPE is supported")
         sys.exit()       
 
-    if(config[section]["DBTYPE"] not in ["mysql","postgresql"]):
+    if(keys["DBTYPE"] not in ["mysql","postgresql"]):
         print("Only docker mysql and postgresql DBTYPE is supported")
         sys.exit()        
 
