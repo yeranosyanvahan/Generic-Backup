@@ -64,8 +64,7 @@ for section in config.sections():
         proc = container.exec_run(COMMAND, stdout=True, stderr=True, stream=True)
 
         # Add the stdout and stderr streams of the subprocess to the tar file
-        tar.addfile(tarfile.TarInfo('backup/backup.sql'), proc.stdout)
-        tar.addfile(tarfile.TarInfo('backup/backup_stderr.txt'), proc.stderr)
+        tar.addfile(tarfile.TarInfo('backup/backup.sql'), io.BytesIO(proc.output))
 
         # Add the Readme.md file to the tar file
         readme_bytes = README.encode('utf-8')
