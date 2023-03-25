@@ -15,6 +15,10 @@ output = container.exec_run('echo "hello world"').output.decode('utf-8')
 folder = datetime.now().strftime('%Y-%m')
 filename = datetime.now().strftime(f'%Y-%m-%d_{CONTAINER_NAME}.tgz')
 
+# Create the folder if it doesn't exist
+if not os.path.exists(folder):
+    os.makedirs(folder)
+
 # Open the tar file
 with tarfile.open(f'{folder}/{filename}', 'w:gz') as tar:
     # Add the output of the function to backup/backup.sql in the tar file
