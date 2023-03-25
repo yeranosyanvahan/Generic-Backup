@@ -1,9 +1,8 @@
 import docker
 import tarfile
 import gzip
-import io
 
-CONTAINER_NAME="srv-mysql2-1"
+CONTAINER_NAME = "srv-mysql2-1"
 
 client = docker.from_env()
 
@@ -18,27 +17,27 @@ def generate_output():
 # open the existing tar file for writing
 with tarfile.open('output.tar', 'w:gz') as tf:
     
-    # create a TarInfo object for the output file
-    info = tarfile.TarInfo('output.gz')
-    output_bytes = output.encode('utf-8')
-    info.size = len(output_bytes)
-    
     # create a GzipFile object for writing compressed data
     with gzip.open('output.gz', 'wb') as gz:
         
         # write the output to the GzipFile
-        gz.write(output_bytes)
+        gz.write(output.encode('utf-8'))
+        
+        # create a TarInfo object for the output file
+        info = tarfile.TarInfo('output.gz')
+        info.size = len(output)
         
         # add the output file to the tar file
         tf.addfile(info, gz)
         
     # create a TarInfo object for the Readme file
     readme_info = tarfile.TarInfo('Readme.md')
-    readme_bytes = b'hello world'
-    readme_info.size = len(readme_bytes)
-    
-    # create a file-like object with the contents of the Readme file
-    readme_obj = io.BytesIO(readme_bytes)
+    readme_info.size = len('hello world')
     
     # add the Readme file to the tar file
-    tf.addfile(readme_info, readme_obj)
+    with tf.fileobj as tar_file:
+        with gzip.open('Readme.md.gz', 'wb') as gz:
+            gz.write('hello world'.encode('utf-8'))
+            gz.seek(0)
+            tar_file.write(readme_info.tobuf())
+            tar_file.write(gz.read())
