@@ -3,6 +3,14 @@ import tarfile
 import io
 import os
 from datetime import datetime
+import configparser
+
+config = configparser.ConfigParser()
+config.read('/cfg/main.ini')
+
+for section in config.sections():
+    config = {key:value for key, value in config.items(section)}
+    print(section,config)
 
 CONTAINER_NAME = "srv-mysql2-1"
 
