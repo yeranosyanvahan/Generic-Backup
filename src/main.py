@@ -49,7 +49,6 @@ for section in config.sections():
 
     COMMAND, README = COMMANDS(keys["dbtype"])
     COMMAND = COMMAND.format(**keys)
-    print(COMMAND)
 
     # Set the folder and filename for the tar file
     folder = datetime.now().strftime('%Y-%m')
