@@ -7,7 +7,7 @@ client = docker.from_env()
 
 container = client.containers.get(CONTAINER_NAME)
 
-output = container.exec_run('echo "hello world"')
+output = container.exec_run('echo "hello world"').output.decode('utf-8')
 
 import tarfile
 import gzip
