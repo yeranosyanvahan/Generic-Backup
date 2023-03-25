@@ -18,8 +18,10 @@ for section in config.sections():
 
     if("BACKUPTYPE" not in keys):
         print("BACKUPTYPE is not present in main.ini")
+        sys.exit()
     if("DBTYPE" not in keys):
         print("DBTYPE is not present in main.ini")
+        sys.exit()
 
     if(keys["BACKUPTYPE"]!= "docker"):
         print("Only docker BACKUPTYPE is supported")
