@@ -61,11 +61,11 @@ for section in config.sections():
 
     # Open the tar file
     with tarfile.open(f'{folder}/{filename}', 'w:gz') as tar:
-        # Create a subprocess to run the backup command in the container
-        proc = container.exec_run(COMMAND)
-        print(proc.output)
-        # Add the stdout and stderr streams of the subprocess to the tar file
-        tar.addfile(tarfile.TarInfo('backup/backup.sql'), proc.output)
+        # Add the output of the function to backup/backup.sql in the tar file
+        output_bytes = container.exec_run(COMMAND).output
+        tarinfo = tarfile.TarInfo('backup/backup.sql')
+        tarinfo.size = len(output_bytes)
+        tar.addfile(tarinfo, io.BytesIO(output_bytes))        
 
         # Add the Readme.md file to the tar file
         readme_bytes = README.encode('utf-8')
