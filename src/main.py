@@ -15,7 +15,7 @@ with tarfile.open('output.tgz', 'w:gz') as tar:
     # Add the output of the function to output.txt in the tar file
     output = "This is the output of my function"
     output_bytes = output.encode('utf-8')
-    tarinfo = tarfile.TarInfo('output.txt')
+    tarinfo = tarfile.TarInfo('backup/output.txt')
     tarinfo.size = len(output_bytes)
     tar.addfile(tarinfo, io.BytesIO(output_bytes))
 
