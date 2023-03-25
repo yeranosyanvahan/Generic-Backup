@@ -47,7 +47,8 @@ for section in config.sections():
     client = docker.from_env()
     container = client.containers.get(CONTAINER_NAME)
 
-    COMMAND, README = f'{COMMANDS(keys["dbtype"])}'
+    COMMAND, README = COMMANDS(keys["dbtype"])
+    COMMAND, README = f"{COMMAND}",f"{README}"
     print(COMMAND)
 
     # Set the folder and filename for the tar file
