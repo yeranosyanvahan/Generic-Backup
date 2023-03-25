@@ -9,7 +9,7 @@ import sys
 def COMMANDS(DBTYPE):
     if(DBTYPE == 'postgresql'):
         return ("su postgres -c 'pg_dumpall -U {PGUSER}'",
-        """ This is readme for recovering mysql """)
+        """ This is readme for recovering postgresql """)
     elif(DBTYPE == 'mysql'):
         return (""" mysqldump --all-databases -u{MYSQL_USER} -p"{MYSQL_PASSWORD}" """,  
             """ This is readme for recovering mysql """)
