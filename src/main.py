@@ -1,9 +1,9 @@
-import docker
-import tarfile
-import io
-import os
 from datetime import datetime
 import configparser
+import tarfile
+import docker
+import io
+import os
 
 config = configparser.ConfigParser()
 config.read('/cfg/main.ini')
