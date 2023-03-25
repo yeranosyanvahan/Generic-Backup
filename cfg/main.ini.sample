@@ -1,5 +1,5 @@
 [mysql_container_name]
-BACKUPTYPE="docker"
+BACKUPTYPE=docker
 DBTYPE=mysql
-MYSQL_USER="root"
-MYSQL_PASSWORD="password"
+MYSQL_USER=root
+MYSQL_PASSWORD=password
