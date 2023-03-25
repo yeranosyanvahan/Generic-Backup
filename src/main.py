@@ -8,10 +8,10 @@ import sys
 
 def COMMANDS(DBTYPE):
     if(DBTYPE == 'postgresql'):
-        return ("su postgres -c 'pg_dumpall -U {pguser}'",
+        return ("su postgres -c 'pg_dumpall -U ${pguser}'",
         """ This is readme for recovering postgresql """)
     elif(DBTYPE == 'mysql'):
-        return (""" mysqldump --all-databases -u{mysql_user} -p"{mysql_password}" """,  
+        return (""" mysqldump --all-databases -u${mysql_user} -p"${mysql_password}" """,  
             """ This is readme for recovering mysql """)
     else:
         print("COMMANDS functions accepts only mysql and postgresql ")
@@ -48,7 +48,6 @@ for section in config.sections():
     container = client.containers.get(CONTAINER_NAME)
 
     COMMAND, README = COMMANDS(keys["dbtype"])
-    COMMAND = COMMAND.format(**keys)
 
     # Set the folder and filename for the tar file
     folder = datetime.now().strftime('%Y-%m')
@@ -61,10 +60,10 @@ for section in config.sections():
     # Open the tar file
     with tarfile.open(f'{folder}/{filename}', 'w:gz') as tar:
         # Create a subprocess to run the backup command in the container
-        proc = container.exec_run(COMMAND, socket=True)
+        proc = container.exec_run(COMMAND, environment=keys)
 
         # Add the stdout and stderr streams of the subprocess to the tar file
-        tar.addfile(tarfile.TarInfo('backup/backup.sql'), io.BytesIO(proc.output))
+        tar.addfile(tarfile.TarInfo('backup/backup.sql'), proc.output)
 
         # Add the Readme.md file to the tar file
         readme_bytes = README.encode('utf-8')
