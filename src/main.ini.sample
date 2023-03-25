@@ -1,0 +1,4 @@
+[mysql_container_name]
+DBTYPE=mysql
+MYSQL_USER="root"
+MYSQL_PASSWORD="password"
