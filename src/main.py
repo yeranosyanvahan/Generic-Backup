@@ -6,12 +6,12 @@ import io
 import os
 import sys
 
-if not os.path.isfile('/cfg/main.ini'):
+if not os.path.isfile('cfg/main.ini'):
     print("cfg/main.ini does not exist, Please configure it before using the script")
     sys.exit()
 
 config = configparser.ConfigParser()
-config.read('/cfg/main.ini')
+config.read('cfg/main.ini')
 
 for section in config.sections():
     config = {key:value for key, value in config.items(section)}
