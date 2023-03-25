@@ -17,18 +17,18 @@ for section in config.sections():
     keys = {key:value for key, value in config.items(section)}
     print(keys)
 
-    if("BACKUPTYPE" not in keys):
+    if("backuptype" not in keys):
         print("BACKUPTYPE is not present in main.ini")
         sys.exit()
-    if("DBTYPE" not in keys):
+    if("dbtype" not in keys):
         print("DBTYPE is not present in main.ini")
         sys.exit()
 
-    if(keys["BACKUPTYPE"]!= "docker"):
+    if(keys["backuptype"]!= "docker"):
         print("Only docker BACKUPTYPE is supported")
         sys.exit()       
 
-    if(keys["DBTYPE"] not in ["mysql","postgresql"]):
+    if(keys["dbtype"] not in ["mysql","postgresql"]):
         print("Only docker mysql and postgresql DBTYPE is supported")
         sys.exit()        
 
