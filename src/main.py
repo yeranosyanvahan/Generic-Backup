@@ -63,7 +63,7 @@ for section in config.sections():
     with tarfile.open(f'{folder}/{filename}', 'w:gz') as tar:
         # Create a subprocess to run the backup command in the container
         proc = container.exec_run(COMMAND)
-
+        print(proc.output)
         # Add the stdout and stderr streams of the subprocess to the tar file
         tar.addfile(tarfile.TarInfo('backup/backup.sql'), proc.output)
 
