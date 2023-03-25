@@ -4,6 +4,11 @@ import tarfile
 import docker
 import io
 import os
+import sys
+
+if not os.path.isfile('/cfg/main.ini'):
+    print("cfg/main.ini does not exist, Please configure it before using the script")
+    sys.exit()
 
 config = configparser.ConfigParser()
 config.read('/cfg/main.ini')
