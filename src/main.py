@@ -14,8 +14,9 @@ config = configparser.ConfigParser()
 config.read('cfg/main.ini')
 
 for section in config.sections():
-    config = {key:value for key, value in config.items(section)}
-    print(section,config)
+    if(config[section]["BACKUPTYPE"]!= "docker"):
+        print("Only docker BACKUPTYPE is supported")
+        sys.exit()        
 
 CONTAINER_NAME = "srv-mysql2-1"
 
